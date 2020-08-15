@@ -1,0 +1,15 @@
+tqdm==4.31.1
+scipy==1.2.1
+faiss_cpu==1.6.3
+sentence_transformers==0.3.3
+numpy==1.16.3
+spacy==2.2.4
+transformers==3.0.2
+nltk==3.2.5
+Flask_Cors==3.0.6
+Flask==1.0.2
+torch==1.6.0
+apex==0.9.10dev
+faiss==1.5.3
+scikit_learn==0.23.2
+typing==3.7.4.3
