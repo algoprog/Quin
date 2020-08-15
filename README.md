@@ -12,12 +12,12 @@ An easy to use framework for scalable semantic search.
 pip3 install -r requirements.txt
 ```
 
-2) Initialise Quin with an index path (Quin class from quin.py):
+3) Initialise Quin with an index path (Quin class from quin.py):
 ```python3
 q = Quin(index_path='index')
 ```
 
-3) Index a list of documents:
+4) Index a list of documents:
 ```python3
 q.index_documents(documents=[
     'Document text 1',
@@ -25,7 +25,7 @@ q.index_documents(documents=[
 ])
 ```
 
-4) Serve a Flask API:
+5) Serve a Flask API:
 ```python3
 q.serve()
 ```
