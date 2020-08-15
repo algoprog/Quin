@@ -7,7 +7,7 @@ An easy to use framework for scalable semantic search.
 
 1) Download the model weights (encoder, passage ranker, NLI) from <a href="https://drive.google.com/file/d/1dBMCxa7xYvGNMZGyonOQO1nyoB_CgXAe/view?usp=sharing">here</a> and extract them into the models/weights folder.
 
-2) Initialise Quin with an index path:
+2) Initialise Quin with an index path (Quin class from quin.py):
 ```python3
 q = Quin(index_path='index')
 ```
