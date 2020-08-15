@@ -208,11 +208,3 @@ class Quin:
     def serve(self, port=80):
         self.build_endpoints()
         self.app.run(host='0.0.0.0', port=port)
-
-
-q = Quin(index_path='index')
-q.index_documents(documents=[
-    'Inception is a 2010 science fiction action film written and directed by Christopher Nolan, who also produced the film with his wife, Emma Thomas. The film stars Leonardo DiCaprio as a professional thief who steals information by infiltrating the subconscious of his targets.',
-    'Interstellar is a 2014 epic science fiction film directed, co-written and produced by Christopher Nolan. It stars Matthew McConaughey, Anne Hathaway, Jessica Chastain, Bill Irwin, Ellen Burstyn, Matt Damon, and Michael Caine.'
-])
-q.serve()
