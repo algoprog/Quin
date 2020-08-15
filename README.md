@@ -3,7 +3,7 @@ An easy to use framework for scalable semantic search.
 
 [<a href="https://quin.algoprog.com">Demo</a>] - [<a href="https://www.researchgate.net/publication/342815574_Latent_Retrieval_for_Large-Scale_Fact-Checking_and_Question_Answering_with_NLI_training">Paper</a>] - [<a href="https://towardsdatascience.com/building-a-semantic-search-engine-for-large-scale-fact-checking-and-question-answering-9aa356632432">Blog post</a>] - [<a href="https://docs.google.com/presentation/d/1QpDF4xWgLSF-2DC1q5M_9MN7pASn-2T6NgKkhJ-NTZ8/edit?usp=sharing">Presentation</a>]
 
-![Quin semantic search architecture](https://miro.medium.com/max/1400/1*-LaR_PfEbfJcH_BpD0Sptg.png)
+<img src="https://miro.medium.com/max/1400/1*-LaR_PfEbfJcH_BpD0Sptg.png" width="500"/>
 
 ## Usage
 
