@@ -26,35 +26,43 @@ logging.getLogger().setLevel(logging.INFO)
 
 
 class Quin:
-    def __init__(self, index_path='index'):
+    def __init__(self, mode='serve', index_path='index', models_path='models/weights'):
         self.index_path = index_path
-
-        self.sent_tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-        self.sent_tokenizer._params.abbrev_types.update(['e.g', 'i.e', 'subsp'])
 
         device = 'cpu'
         if torch.cuda.is_available():
             device = 'cuda'
 
-        self.text_embedding_model = SentenceTransformer('models/weights/encoder',
-                                                        device=device)
-        self.passage_ranking_model = PassageRanker(model_path='models/weights/passage_ranker/passage_ranker.state_dict',
-                                                   batch_size=32,
-                                                   device=device)
-        self.nli_model = NLI('models/weights/nli/nli_model.state_dict',
-                             batch_size=32,
-                             device=device)
+        # initialize the sentence tokenizer
+        self.sent_tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+        self.sent_tokenizer._params.abbrev_types.update(['e.g', 'i.e', 'subsp'])
 
+        # initialize the word tokenizer
         self.tokenizer = tokenize_function()
 
-        if os.path.exists('{}/vectors.pkl'.format(self.index_path)):
-            self.dense_index = DenseRetriever(model=self.text_embedding_model, batch_size=32)
-            self.dense_index.create_index_from_vectors('{}/vectors.pkl'.format(index_path))
-            self.sparse_index = pickle.load(open('{}/sparse_index.pkl'.format(index_path), 'rb'))
-            self.documents = pickle.load(open('{}/documents.pkl'.format(index_path), 'rb'))
+        # initialize the passage embedding model
+        self.text_embedding_model = SentenceTransformer('{}/encoder'.format(models_path),
+                                                        device=device)
 
-        self.app = Flask(__name__)
-        CORS(self.app)
+        if mode == 'serve':
+            self.passage_ranking_model = PassageRanker(
+                model_path='{}/passage_ranker/passage_ranker.state_dict'.format(models_path),
+                batch_size=32,
+                device=device)
+            self.passage_ranking_model.eval()
+            self.nli_model = NLI('{}/nli/nli_model.state_dict'.format(models_path),
+                                 batch_size=32,
+                                 device=device)
+            self.nli_model.eval()
+
+            if os.path.exists('{}/vectors.pkl'.format(self.index_path)):
+                self.dense_index = DenseRetriever(model=self.text_embedding_model, batch_size=32)
+                self.dense_index.create_index_from_vectors('{}/vectors.pkl'.format(index_path))
+                self.sparse_index = pickle.load(open('{}/sparse_index.pkl'.format(index_path), 'rb'))
+                self.documents = pickle.load(open('{}/documents.pkl'.format(index_path), 'rb'))
+
+                self.app = Flask(__name__)
+                CORS(self.app)
 
         logging.info('Initialized!')
 
