@@ -28,3 +28,8 @@ q.index_documents(documents=[
 q = Quin(mode='serve', index_path='index')
 q.serve()
 ```
+
+## To do
+
+- [ ] Multilingual QR-BERT, Passage Ranker and NLI models
+- [ ] Factual-NLI 2.0 with more diverse synthetic examples
