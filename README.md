@@ -34,3 +34,14 @@ q.serve()
 - [ ] Release of the "Question - Short Answer" to "Well formed answer" T5 model
 - [ ] Multilingual QR-BERT, Passage Ranker and NLI models
 - [ ] Factual-NLI 2.0 with more diverse synthetic examples
+
+## Citation
+
+```
+@techreport{samarinas2020latent,
+  title={Latent Retrieval for Large-Scale Fact-Checking and Question Answering with NLI training},
+  author={Samarinas, Chris and Hsu, Wynne and Lee, Mong Li},
+  year={2020},
+  institution={EasyChair}
+}
+```
