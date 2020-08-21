@@ -46,3 +46,7 @@ q.serve()
   institution={EasyChair}
 }
 ```
+
+## License
+
+Quin is licensed under <a href="https://github.com/algoprog/Quin/blob/master/LICENSE">MIT License</a>, and the Factual-NLI dataset under <a href="https://creativecommons.org/licenses/by/4.0/">Attribution 4.0 International (CC BY 4.0) license</a>.
