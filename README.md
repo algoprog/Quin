@@ -23,7 +23,7 @@ q.index_documents(documents=[
 ])
 ```
 
-5) Serve a Flask API:
+4) Serve a Flask API:
 ```python3
 q = Quin(mode='serve', index_path='index')
 q.serve()
