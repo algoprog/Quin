@@ -31,7 +31,8 @@ q.serve()
 
 ## To do
 
-- [ ] Include a basic frontend
+- [ ] Release training and evaluation scripts for QR-BERT
+- [ ] Include a basic search frontend
 - [ ] Release of the "Question - Short Answer" to "Well formed answer" T5 model
 - [ ] QR-BERT trained on the union of Factual-NLI and MSMARCO
 - [ ] Multilingual QR-BERT, Passage Ranker and NLI models
