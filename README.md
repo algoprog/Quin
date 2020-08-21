@@ -31,6 +31,7 @@ q.serve()
 
 ## To do
 
+- [ ] Include a basic frontend
 - [ ] Release of the "Question - Short Answer" to "Well formed answer" T5 model
 - [ ] Multilingual QR-BERT, Passage Ranker and NLI models
 - [ ] Factual-NLI 2.0 with more diverse synthetic examples
