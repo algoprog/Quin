@@ -33,21 +33,24 @@ q.serve()
 
 ## To do
 
+- [ ] Release of more efficient sparse retriever
 - [ ] Release training and evaluation scripts for QR-BERT
 - [ ] Include a basic search frontend
 - [ ] Release of the "Question - Short Answer" to "Well formed answer" T5 model
-- [ ] QR-BERT trained on the union of Factual-NLI and MSMARCO
+- [ ] Release of Multi-task QR-BERT
 - [ ] Multilingual QR-BERT, Passage Ranker and NLI models
-- [ ] Factual-NLI 2.0 with more diverse synthetic examples
+- [ ] Compress QR-BERT with distillation & movement pruning
 
 ## Citation
 
 ```
-@techreport{samarinas2020latent,
+@inproceedings{samarinas2020latent,
   title={Latent Retrieval for Large-Scale Fact-Checking and Question Answering with NLI training},
   author={Samarinas, Chris and Hsu, Wynne and Lee, Mong Li},
+  booktitle={2020 IEEE 32nd International Conference on Tools with Artificial Intelligence (ICTAI)},
+  pages={941--948},
   year={2020},
-  institution={EasyChair}
+  organization={IEEE}
 }
 ```
 
