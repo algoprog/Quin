@@ -41,9 +41,14 @@ q.serve()
 - [ ] Multilingual QR-BERT, Passage Ranker and NLI models
 - [ ] Compress QR-BERT with distillation & movement pruning
 
-## Citation
+## References
 
 ```
+@article{samarinasimproving,
+  title={Improving Evidence Retrieval for Automated Explainable Fact-Checking},
+  author={Samarinas, Chris and Hsu, Wynne and Lee, Mong Li}
+}
+
 @inproceedings{samarinas2020latent,
   title={Latent Retrieval for Large-Scale Fact-Checking and Question Answering with NLI training},
   author={Samarinas, Chris and Hsu, Wynne and Lee, Mong Li},
