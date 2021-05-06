@@ -6,7 +6,7 @@ numpy==1.16.3
 spacy==2.2.4
 transformers==3.0.2
 nltk==3.4.5
-Flask_Cors==3.0.6
+Flask_Cors==3.0.9
 Flask==1.0.2
 torch==1.6.0
 apex==0.9.10dev
