@@ -1,7 +1,7 @@
 # Quin
 ![GitHub](https://img.shields.io/github/license/algoprog/Quin)
 
-An easy to use framework for large-scale fact-checking and question answering.
+An easy to use framework for large-scale fact-checking and question answering. (repo is outdated, stay stuned for updates soon)
 
 [<a href="https://quin.algoprog.com">Demo</a>] - [<a href="https://towardsdatascience.com/building-a-semantic-search-engine-for-large-scale-fact-checking-and-question-answering-9aa356632432">Blog post</a>] - [<a href="https://docs.google.com/presentation/d/1QpDF4xWgLSF-2DC1q5M_9MN7pASn-2T6NgKkhJ-NTZ8/edit?usp=sharing">Presentation</a>] - [<a href="https://archive.org/details/factual-nli">Factual-NLI Dataset</a>]
 
