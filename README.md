@@ -7,7 +7,7 @@ An easy to use framework for large-scale fact-checking and question answering. [
 
 The project was tested with Python <b>3.7</b>. For the setup and execution:
 
-1) Download the model weights and extract them into the models/weights folder:
+1) Download the model weights and extract them into the `models/weights` folder:
 
  - <a href="https://drive.google.com/file/d/15Txw44izeEHCzzXIpxwVXFvNz_-_kng-/view?usp=sharing">NLI model</a> and
  - <a href="https://drive.google.com/file/d/1qsDPreap_26mL3UFDEyVPoe9ygbniLx9/view?usp=sharing">Dense Encoder M</a> (multitask for QA and Fact-Checking) or 
