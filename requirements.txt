@@ -13,3 +13,4 @@ apex==0.9.10dev
 faiss==1.5.3
 scikit_learn==0.23.2
 typing==3.7.4.3
+tantivy==0.13.2
