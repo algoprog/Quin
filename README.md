@@ -1,15 +1,18 @@
 # Quin
 ![GitHub](https://img.shields.io/github/license/algoprog/Quin)
 
-An easy to use framework for large-scale fact-checking and question answering. (repo is outdated, stay tuned for updates soon)
+An easy to use framework for large-scale fact-checking and question answering.
 
-[<a href="https://quin.algoprog.com">Demo</a>] - [<a href="https://towardsdatascience.com/building-a-semantic-search-engine-for-large-scale-fact-checking-and-question-answering-9aa356632432">Blog post</a>] - [<a href="https://docs.google.com/presentation/d/1QpDF4xWgLSF-2DC1q5M_9MN7pASn-2T6NgKkhJ-NTZ8/edit?usp=sharing">Presentation</a>] - [<a href="https://archive.org/details/factual-nli">Factual-NLI Dataset</a>]
-
-<img src="https://miro.medium.com/max/1400/1*-LaR_PfEbfJcH_BpD0Sptg.png" width="500"/>
+[<a href="https://quin.algoprog.com">Demo</a>] - [<a href="https://archive.org/details/factual-nli">Factual-NLI Dataset</a>]
 
 ## Usage
 
-1) Download the model weights (encoder, passage ranker, NLI) from <a href="https://drive.google.com/file/d/1dBMCxa7xYvGNMZGyonOQO1nyoB_CgXAe/view?usp=sharing">here</a> and extract them into the models/weights folder.
+1) Download the model weights and extract them into the models/weights folder:
+
+ - <a href="https://drive.google.com/file/d/15Txw44izeEHCzzXIpxwVXFvNz_-_kng-/view?usp=sharing">NLI model</a> and
+ - <a href="https://drive.google.com/file/d/1qsDPreap_26mL3UFDEyVPoe9ygbniLx9/view?usp=sharing">Dense Encoder M</a> (multitask for QA and Fact-Checking) or 
+ - <a href="https://drive.google.com/file/d/1G3eMkVrd-lA5cbWhwme8f5RpplacTMvF/view?usp=sharing">Dense Encoder FC</a> (single-task for Fact-Checking) or 
+ - <a href="https://drive.google.com/file/d/1uco7t8drHuagiS6hwNFQlayAhYVIFyfY/view?usp=sharing">Dense Encoder QA</a> (single-task for Question Answering)
 
 2) Install the required packages:
 ```
@@ -17,36 +20,24 @@ pip3 install -r requirements.txt
 ```
 
 3) Index a list of documents:
-```python3
-q = Quin(mode='index', index_path='index')
-q.index_documents(documents=[
-    'Document text 1',
-    'Document text 2'
-])
+```
+python quin.py --index example_docs.jsonl
 ```
 
 4) Serve a Flask API:
-```python3
-q = Quin(mode='serve', index_path='index')
-q.serve()
 ```
-
-## To do
-
-- [ ] Release of more efficient sparse retriever
-- [ ] Release training and evaluation scripts for QR-BERT
-- [ ] Include a basic search frontend
-- [ ] Release of the "Question - Short Answer" to "Well formed answer" T5 model
-- [ ] Release of Multi-task QR-BERT
-- [ ] Multilingual QR-BERT, Passage Ranker and NLI models
-- [ ] Compress QR-BERT with distillation & movement pruning
+python quin.py --port 1234
+```
 
 ## References
 
 ```
-@article{samarinasimproving,
+@inproceedings{samarinas2021improving,
   title={Improving Evidence Retrieval for Automated Explainable Fact-Checking},
-  author={Samarinas, Chris and Hsu, Wynne and Lee, Mong Li}
+  author={Samarinas, Chris and Hsu, Wynne and Lee, Mong Li},
+  booktitle={Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies: Demonstrations},
+  pages={84--91},
+  year={2021}
 }
 
 @inproceedings{samarinas2020latent,
