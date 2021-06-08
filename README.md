@@ -1,9 +1,7 @@
 # Quin
 ![GitHub](https://img.shields.io/github/license/algoprog/Quin)
 
-An easy to use framework for large-scale fact-checking and question answering.
-
-[<a href="https://quin.algoprog.com">Demo</a>] - [<a href="https://archive.org/details/factual-nli">Factual-NLI Dataset</a>]
+An easy to use framework for large-scale fact-checking and question answering. [<a href="https://quin.algoprog.com">Demo</a>]
 
 ## Usage
 
@@ -28,6 +26,11 @@ python quin.py --index example_docs.jsonl
 ```
 python quin.py --port 1234
 ```
+
+## Datasets
+
+- <a href="https://archive.org/details/factual-nli">Factual-NLI Dataset</a>
+- <a href="https://archive.org/details/covid-news">COVID-19 news dataset</a>
 
 ## References
 
