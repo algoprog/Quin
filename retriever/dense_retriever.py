@@ -1,16 +1,15 @@
 import logging
 import pickle
-import torch
 
-from .vector_index import VectorIndex
+from retriever.vector_index import VectorIndex
 
 
 class DenseRetriever:
-    def __init__(self, model, batch_size=16):
+    def __init__(self, model, batch_size=1, use_gpu=False):
         self.model = model
         self.vector_index = VectorIndex(768)
         self.batch_size = batch_size
-        self.use_gpu = torch.cuda.is_available()
+        self.use_gpu = use_gpu
 
     def create_index_from_documents(self, documents):
         logging.info('Building index...')
@@ -22,8 +21,9 @@ class DenseRetriever:
 
     def create_index_from_vectors(self, vectors_path):
         logging.info('Building index...')
-
+        logging.info('Loading vectors...')
         self.vector_index.vectors = pickle.load(open(vectors_path, 'rb'))
+        logging.info('Vectors loaded')
         self.vector_index.build(self.use_gpu)
 
         logging.info('Built index')

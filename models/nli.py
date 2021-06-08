@@ -1,15 +1,17 @@
 import os
+import random
 import torch
 import math
 import argparse
 import transformers
+import logging
 
 from torch import nn
 from torch.nn import DataParallel
 from data_utils import build_batch, LoggingHandler, get_examples
 from tqdm import tqdm
-from transformers import *
 from sklearn.metrics import precision_recall_fscore_support
+from transformers import AutoConfig, RobertaModel, AutoModel, AutoTokenizer, AdamW
 
 import torch.nn.functional as F
 import numpy as np
@@ -20,34 +22,35 @@ class NLI(nn.Module):
     NLI model based on BERT (using the code from: https://github.com/yg211/bert_nli)
     """
 
-    def __init__(self, model_path=None, device='cuda', parallel=False, label_num=3, batch_size=16):
+    def __init__(self, model_path=None, device='cuda', parallel=False, debug=False, label_num=3, batch_size=16):
         super(NLI, self).__init__()
 
-        lm = 'bert-base-cased'
+        lm = 'roberta-large'
 
         if model_path is not None:
             configuration = AutoConfig.from_pretrained(lm)
-            self.bert = BertModel(configuration)
+            self.bert = RobertaModel(configuration)
         else:
             self.bert = AutoModel.from_pretrained(lm)
 
         self.tokenizer = AutoTokenizer.from_pretrained(lm)
-        self.vdim = 768
+        self.vdim = 1024
         self.max_length = 256
 
         self.nli_head = nn.Linear(self.vdim, label_num)
         self.batch_size = batch_size
 
-        # load trained model
-        if model_path is not None:
-            sdict = torch.load(model_path, map_location=lambda storage, loc: storage)
-            self.load_state_dict(sdict)
-
         if parallel:
             self.bert = DataParallel(self.bert)
 
+        # load trained model
+        if model_path is not None:
+            sdict = torch.load(model_path, map_location=lambda storage, loc: storage)
+            self.load_state_dict(sdict, strict=False)
+
         self.to(device)
         self.device = device
+        self.debug = debug
 
     def load_model(self, sdict):
         if self.gpu:
@@ -58,7 +61,10 @@ class NLI(nn.Module):
 
     def forward(self, sent_pair_list):
         all_probs = None
-        for batch_idx in range(0, len(sent_pair_list), self.batch_size):
+        iterator = range(0, len(sent_pair_list), self.batch_size)
+        if self.debug:
+            iterator = tqdm(iterator, desc='batch')
+        for batch_idx in iterator:
             probs = self.ff(sent_pair_list[batch_idx:batch_idx + self.batch_size]).data.cpu().numpy()
             if all_probs is None:
                 all_probs = probs
@@ -68,9 +74,9 @@ class NLI(nn.Module):
         for pp in all_probs:
             ll = np.argmax(pp)
             if ll == 0:
-                labels.append('contradiction')
-            elif ll == 1:
                 labels.append('entailment')
+            elif ll == 1:
+                labels.append('contradiction')
             else:
                 labels.append('neutral')
         return labels, all_probs
@@ -80,25 +86,25 @@ class NLI(nn.Module):
         if ids is None:
             return None
         ids_tensor = torch.tensor(ids)
-        types_tensor = torch.tensor(types)
+        #ypes_tensor = torch.tensor(types)
         masks_tensor = torch.tensor(masks)
 
         ids_tensor = ids_tensor.to(self.device)
-        types_tensor = types_tensor.to(self.device)
+        #types_tensor = types_tensor.to(self.device)
         masks_tensor = masks_tensor.to(self.device)
         # self.bert.to('cuda')
         # self.nli_head.to('cuda')
 
-        cls_vecs = self.bert(input_ids=ids_tensor, token_type_ids=types_tensor, attention_mask=masks_tensor)[1]
+        cls_vecs = self.bert(input_ids=ids_tensor, attention_mask=masks_tensor)[1]
         logits = self.nli_head(cls_vecs)
         predict_probs = F.log_softmax(logits, dim=1)
         return predict_probs
 
     def save(self, output_path, config_dic=None, acc=None):
         if acc is None:
-            model_name = 'nli.state_dict'
+            model_name = 'nli_large_2.state_dict'
         else:
-            model_name = 'nli_acc{}.state_dict'.format(acc)
+            model_name = 'nli_large_2_acc{}.state_dict'.format(acc)
         opath = os.path.join(output_path, model_name)
         if config_dic is None:
             torch.save(self.state_dict(), opath)
@@ -175,7 +181,7 @@ def train(model, optimizer, scheduler, train_data, dev_data, batch_size, fp16, g
 
 def parse_args():
     ap = argparse.ArgumentParser("arguments for bert-nli training")
-    ap.add_argument('-b', '--batch_size', type=int, default=128, help='batch size')
+    ap.add_argument('-b', '--batch_size', type=int, default=64, help='batch size')
     ap.add_argument('-ep', '--epoch_num', type=int, default=10, help='epoch num')
     ap.add_argument('--fp16', type=int, default=0, help='use apex mixed precision training (1) or not (0)')
     ap.add_argument('--gpu', type=int, default=1, help='use gpu (1) or not (0)')
@@ -203,7 +209,6 @@ def evaluate(model, test_data, mute=False):
 
     if not mute:
         print('==>acc<==', acc)
-        print('label meanings: 0: relevant, 1: irrelevant')
         print('==>precision-recall-f1<==\n', prf)
 
     return acc
@@ -225,7 +230,7 @@ if __name__ == '__main__':
     print('warmup percent:\t{}'.format(warmup_percent))
     print('=====Arguments=====')
 
-    label_num = 2
+    label_num = 3
     model_save_path = 'weights/entailment'
 
     logging.basicConfig(format='%(asctime)s - %(message)s',
@@ -234,15 +239,15 @@ if __name__ == '__main__':
                         handlers=[LoggingHandler()])
 
     # Read the dataset
-    train_data = get_examples('../data/nli/train.jsonl')
-    dev_data = get_examples('../data/nli/dev.jsonl')
+    train_data = get_examples('../data/allnli/train.jsonl')
+    dev_data = get_examples('../data/allnli/dev.jsonl')
 
     logging.info('train data size {}'.format(len(train_data)))
     logging.info('dev data size {}'.format(len(dev_data)))
     total_steps = math.ceil(epoch_num * len(train_data) * 1. / batch_size)
     warmup_steps = int(total_steps * warmup_percent)
 
-    model = NLI(batch_size=batch_size)
+    model = NLI(batch_size=batch_size, parallel=True)
 
     optimizer = AdamW(model.parameters(), lr=2e-5, eps=1e-6, correct_bias=False)
     scheduler = get_scheduler(optimizer, scheduler_setting, warmup_steps=warmup_steps, t_total=total_steps)
@@ -255,6 +260,7 @@ if __name__ == '__main__':
 
     best_acc = -1.
     for ep in range(epoch_num):
+        random.shuffle(train_data)
         logging.info('\n=====epoch {}/{}====='.format(ep, epoch_num))
         best_acc = train(model, optimizer, scheduler, train_data, dev_data, batch_size, fp16, gpu,
                          max_grad_norm, best_acc, model_save_path)
