@@ -1,7 +1,7 @@
 # Quin
 ![GitHub](https://img.shields.io/github/license/algoprog/Quin)
 
-An easy to use framework for large-scale fact-checking and question answering. [<a href="https://youtu.be/I2BzsxGhhEQ?t=78">Demo</a>]
+An easy to use framework for large-scale fact-checking and question answering. [<a href="https://youtu.be/I2BzsxGhhEQ?t=79">Demo</a>]
 
 ## Usage
 
