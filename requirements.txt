@@ -7,7 +7,7 @@ spacy==2.2.4
 transformers==3.0.2
 nltk==3.4.5
 Flask_Cors==3.0.9
-Flask==1.0.2
+Flask==2.3.2
 torch==1.6.0
 apex==0.9.10dev
 faiss==1.5.3
