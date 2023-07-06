@@ -1,5 +1,5 @@
 tqdm==4.31.1
-scipy==1.2.1
+scipy==1.10.0
 faiss_cpu==1.6.3
 sentence_transformers==0.3.3
 numpy==1.16.3
